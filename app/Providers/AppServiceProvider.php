@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -22,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+		Schema::defaultStringLength(191);
         RateLimiter::for('login', function (Request $request): array {
             return [
                 Limit::perMinute(5)->by($request->string('email')->lower()->toString().'|'.$request->ip()),
